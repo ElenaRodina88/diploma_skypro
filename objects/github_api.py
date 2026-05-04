@@ -54,7 +54,7 @@ def delete_repo(token: str, owner: str, repo: str) -> requests.Response:
     Удаляет репозиторий для очистки тестового окружения.
 
     Входные данные:
-        token (str): Токен GitHub.
+        token (str): Токен GitHub
         owner (str): Владелец репозитория.
         repo (str): Имя репозитория.
 

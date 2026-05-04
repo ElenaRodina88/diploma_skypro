@@ -4,3 +4,4 @@ selenium
 allure-pytest
 allure-python-commons
 python-dotenv
+webdriver-manager

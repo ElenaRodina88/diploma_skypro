@@ -38,7 +38,7 @@ def setup_authenticated_session(driver, github_base_url, user_login, user_passwo
         with allure.step("Переход на страницу логина"):
             login_page.open(github_base_url)
 
-        with allure.step("Ввод учетных данных и отправка формы"):
+        with allure.step("Ввод учётных данных и отправка формы"):
             login_page.fill_credentials(user_login, user_password)
             login_page.submit()
 

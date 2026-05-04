@@ -35,7 +35,7 @@ class GitHubLoginPage:
     @allure.step("Подтвердить вход (кнопка 'Sign in')")
     def submit(self) -> None:
         """
-        Нажимает кнопку подтверждения входа.
+        Нажимает кнопку подтверждения входа
         """
         self.wait.until(EC.element_to_be_clickable((By.NAME, "commit"))).click()
 

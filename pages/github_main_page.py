@@ -29,7 +29,6 @@ class GitHubMainPage:
     def perform_search(self, query: str) -> None:
         """
         Вводит текст запроса в поиск и нажимает Enter.
-
         Входные данные:
             query (str): Текст поискового запроса.
         """
@@ -47,21 +46,20 @@ class GitHubMainPage:
     def get_search_results_count(self) -> int:
         """
         Получает количество найденных репозиториев.
-
         Выходные данные:
             int: Число найденных элементов.
         """
         count_text = self.wait.until(
             EC.visibility_of_element_located((By.CLASS_NAME, "SearchSubHeader-module__inlineDisplay__AFA2a"))
         ).text
-        number_part = count_text.split(" ")[0].replace("M", "000000").replace("k", "000")
+        # ИЗНАЧАЛЬНАЯ ЛОГИКА БЕЗ re - простая обработка строки
+        number_part = count_text.split(" ")[0].replace("M", "000000").replace("k", "000").replace(",", "")
         return int(number_part)
 
     @allure.step("Кликнуть по первому репозиторию в результатах")
     def click_first_repository(self) -> str:
         """
         Нажимает на первую ссылку репозитория.
-
         Выходные данные:
             str: Название репозитория, по которому был клик.
         """
@@ -73,7 +71,6 @@ class GitHubMainPage:
         repo_name = first_repo_link.text
         first_repo_link.click()
         return repo_name
-
 
     @allure.step("Открыть форму создания нового репозитория")
     def open_new_repository_form(self) -> None:
@@ -93,3 +90,29 @@ class GitHubMainPage:
         new_repo_item.click()
 
         self.wait.until(EC.url_contains("/new"))
+
+    @allure.step("Получить заголовок формы создания репозитория")
+    def get_new_repo_form_header(self) -> str:
+        """
+        Возвращает текст заголовка формы создания репозитория.
+        Выходные данные:
+            str: Текст заголовка.
+        """
+        header_locator = (By.CSS_SELECTOR, "h1.prc-Heading-Heading-MtWFE")
+        header = self.wait.until(
+            EC.visibility_of_element_located(header_locator)
+        ).text.strip()
+        return header
+
+    @allure.step("Получить текст ошибки отсутствия результатов поиска")
+    def get_no_results_error_text(self) -> str:
+        """
+        Возвращает текст сообщения об отсутствии результатов поиска.
+        Выходные данные:
+            str: Текст ошибки.
+        """
+        error_locator = (By.CSS_SELECTOR, "h3.Header-module__heading__i_Q19")
+        error_element = self.wait.until(
+            EC.visibility_of_element_located(error_locator)
+        )
+        return error_element.text.strip()
